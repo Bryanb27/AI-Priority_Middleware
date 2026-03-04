@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 import { NextResponse } from "next/server";
+import { aiLogs } from "@/lib/aiLogs";
+import crypto from "crypto";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -13,7 +15,7 @@ export async function POST(req: Request) {
     const systemPrompt = `
 You are an AI task prioritization engine.
 
-Analyze the task and respond ONLY in valid JSON format:
+Analyze the task and the impact of it and respond ONLY in valid JSON format:
 
 {
   "score": number (1-10),
@@ -51,6 +53,17 @@ Do not include anything else.
         { status: 500 }
       );
     }
+
+    aiLogs.unshift({
+      id: crypto.randomUUID(),
+      timestamp: new Date().toISOString(),
+      model: "gpt-4o-mini",
+      systemPrompt,
+      userPrompt,
+      rawResponse: raw || "",
+      parsedScore: score,
+      reasoning: parsed.reasoning,
+    });
 
     return NextResponse.json({
       score,
