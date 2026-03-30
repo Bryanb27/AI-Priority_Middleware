@@ -8,7 +8,7 @@ A aplicação recebe tarefas via API, avalia **urgência e impacto**, e retorna 
 
 ## 🚀 Demo
 
-👉 **Acesse aqui:** _[mvp-hybrid-architect.vercel.app]_
+👉 **Acesse aqui:** [AI-Priority_Middleware](mvp-hybrid-architect.vercel.app)
 
 ---
 
